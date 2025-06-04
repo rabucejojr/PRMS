@@ -23,13 +23,13 @@ const showingNavigationDropdown = ref(false);
                             <!-- Logo -->
                             <div class="flex shrink-0 items-center">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationLogo class="h-11 auto text-indigo-600" />
+                                    <ApplicationLogo class="h-14 auto text-indigo-600" />
                                 </Link>
                             </div>
 
                             <!-- Navigation Links -->
                             <div
-                                class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
+                                class="hidden space-x-4 sm:-my-px sm:ms-4 sm:flex"
                             >
                                 <NavLink
                                     :href="route('dashboard')"
