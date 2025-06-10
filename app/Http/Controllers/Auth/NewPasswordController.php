@@ -35,9 +35,14 @@ class NewPasswordController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'token' => 'required',
+            'token' => 'required|string',
             'email' => 'required|email',
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', Rules\Password::min(8)->letters()->numbers()],
+        ], [
+            'password.min' => 'Password must be at least 8 characters long.',
+            'password.letters' => 'Password must contain at least one letter.',
+            'password.numbers' => 'Password must contain at least one number.',
+            'password.confirmed' => 'Password confirmation does not match.',
         ]);
 
         // Here we will attempt to reset the user's password. If it is successful we
@@ -59,11 +64,19 @@ class NewPasswordController extends Controller
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
         if ($status == Password::PASSWORD_RESET) {
-            return redirect()->route('login')->with('status', __($status));
+            return redirect()->route('login')->with('status', 'Your password has been reset successfully! You can now log in with your new password.');
         }
 
+        // Handle different error cases
+        $errorMessage = match ($status) {
+            Password::INVALID_TOKEN => 'This password reset token is invalid or has expired.',
+            Password::INVALID_USER => 'We could not find a user with that email address.',
+            Password::RESET_THROTTLED => 'Please wait before retrying.',
+            default => 'Unable to reset password. Please try again.',
+        };
+
         throw ValidationException::withMessages([
-            'email' => [trans($status)],
+            'email' => [$errorMessage],
         ]);
     }
 }
