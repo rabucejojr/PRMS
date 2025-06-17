@@ -6,7 +6,6 @@ use App\Models\PressRelease;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Storage;
 
 class PressReleaseController extends Controller
 {
@@ -83,27 +82,7 @@ class PressReleaseController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'status' => 'required|in:draft,published,archived',
-            'cover_image' => 'nullable|image|max:2048',
-            'attachment' => 'nullable|file|max:10240',
         ]);
-
-        // Handle cover image upload
-        if ($request->hasFile('cover_image')) {
-            // Delete old cover image if exists
-            if ($pressRelease->cover_image) {
-                Storage::delete('public/' . $pressRelease->cover_image);
-            }
-            $validated['cover_image'] = $request->file('cover_image')->store('press-releases/covers', 'public');
-        }
-
-        // Handle attachment upload
-        if ($request->hasFile('attachment')) {
-            // Delete old attachment if exists
-            if ($pressRelease->attachment) {
-                Storage::delete('public/' . $pressRelease->attachment);
-            }
-            $validated['attachment'] = $request->file('attachment')->store('press-releases/attachments', 'public');
-        }
 
         // Update published_at if status changes to published
         if ($validated['status'] === 'published' && $pressRelease->status !== 'published') {

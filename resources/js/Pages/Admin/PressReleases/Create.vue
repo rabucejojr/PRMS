@@ -32,41 +32,6 @@
                                 </div>
                             </div>
 
-                            <!-- Multiple Images Upload Section -->
-                            <div class="mb-6">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Images</label>
-                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                                    <!-- Image Preview Grid -->
-                                    <div v-for="(image, index) in form.images" :key="index" class="relative group">
-                                        <img :src="image.preview" class="w-full h-32 object-cover rounded-lg" />
-                                        <button
-                                            @click.prevent="removeImage(index)"
-                                            class="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                                        >
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <!-- Add Image Button -->
-                                    <label class="flex items-center justify-center h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 transition-colors">
-                                        <input
-                                            type="file"
-                                            @change="handleImages"
-                                            multiple
-                                            accept="image/*"
-                                            class="hidden"
-                                        />
-                                        <div class="text-center">
-                                            <svg class="mx-auto h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                            </svg>
-                                            <span class="mt-2 block text-sm text-gray-600">Add Images</span>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-
                             <div class="mb-4">
                                 <label class="block mb-1 text-sm font-medium text-gray-700">Status</label>
                                 <select
@@ -114,44 +79,10 @@ import { Head, Link } from '@inertiajs/vue3'
 const form = useForm({
     title: '',
     content: '',
-    images: [],
     status: 'draft',
 })
 
-function handleImages(e) {
-    const files = Array.from(e.target.files)
-    files.forEach(file => {
-        const reader = new FileReader()
-        reader.onload = (e) => {
-            form.images.push({
-                file: file,
-                preview: e.target.result
-            })
-        }
-        reader.readAsDataURL(file)
-    })
-}
-
-function removeImage(index) {
-    form.images.splice(index, 1)
-}
-
 function submit() {
-    // Create FormData to handle file uploads
-    const formData = new FormData()
-    formData.append('title', form.title)
-    formData.append('content', form.content)
-    formData.append('status', form.status)
-
-    // Append each image file
-    form.images.forEach((image, index) => {
-        formData.append(`images[${index}]`, image.file)
-    })
-
-    // Post the form data
-    form.post(route('press-releases.store'), {
-        forceFormData: true,
-        data: formData
-    })
+    form.post(route('press-releases.store'))
 }
 </script>

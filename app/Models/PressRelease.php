@@ -12,20 +12,17 @@ class PressRelease extends Model
         'title',
         'content',
         'status',
-        'images',
         'published_at',
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
-        'images' => 'array',
     ];
 
     protected $appends = [
         'excerpt',
         'formatted_published_at',
         'is_published',
-        'image_count'
     ];
 
     protected static function booted()
@@ -81,11 +78,6 @@ class PressRelease extends Model
         return $this->status === 'published' && $this->published_at && $this->published_at <= now();
     }
 
-    public function getImageCountAttribute()
-    {
-        return is_array($this->images) ? count($this->images) : 0;
-    }
-
     // Methods
     public function publish()
     {
@@ -108,24 +100,5 @@ class PressRelease extends Model
         $this->update([
             'status' => 'archived'
         ]);
-    }
-
-    public function addImage($imagePath)
-    {
-        $images = $this->images ?? [];
-        $images[] = $imagePath;
-        $this->update(['images' => $images]);
-    }
-
-    public function removeImage($imagePath)
-    {
-        $images = $this->images ?? [];
-        $images = array_filter($images, fn($path) => $path !== $imagePath);
-        $this->update(['images' => array_values($images)]);
-    }
-
-    public function getFirstImage()
-    {
-        return is_array($this->images) && !empty($this->images) ? $this->images[0] : null;
     }
 }

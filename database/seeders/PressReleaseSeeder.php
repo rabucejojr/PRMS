@@ -13,16 +13,6 @@ class PressReleaseSeeder extends Seeder
         PressRelease::truncate(); // Clear existing data
 
         $statuses = ['draft', 'published', 'archived'];
-        $sampleImages = [
-            'press-releases/tech1.jpg',
-            'press-releases/tech2.jpg',
-            'press-releases/business1.jpg',
-            'press-releases/business2.jpg',
-            'press-releases/event1.jpg',
-            'press-releases/event2.jpg',
-            'press-releases/product1.jpg',
-            'press-releases/product2.jpg'
-        ];
 
         $titles = [
             'Tech Company Launches Revolutionary AI Platform',
@@ -73,13 +63,11 @@ class PressReleaseSeeder extends Seeder
         foreach (range(0, 19) as $i) {
             $status = $i < 12 ? 'published' : $statuses[array_rand($statuses)];
             $publishedAt = $status === 'published' ? now()->subDays(rand(1, 30)) : null;
-            $images = $status === 'published' ? array_slice($sampleImages, 0, rand(1, 4)) : null;
 
             PressRelease::create([
                 'title' => $titles[$i],
                 'slug' => Str::slug($titles[$i]) . '-' . Str::random(5),
                 'content' => $contents[$i],
-                'images' => $images,
                 'status' => $status,
                 'published_at' => $publishedAt,
             ]);

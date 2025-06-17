@@ -14,15 +14,6 @@
 
             <!-- Press Release Content -->
             <article class="bg-white rounded-lg shadow-sm overflow-hidden">
-                <!-- Cover Image -->
-                <div v-if="release.cover_image" class="relative h-64 sm:h-96">
-                    <img
-                        :src="`/storage/${release.cover_image}`"
-                        :alt="release.title"
-                        class="w-full h-full object-cover"
-                    >
-                </div>
-
                 <!-- Content -->
                 <div class="p-6 sm:p-8">
                     <!-- Header -->
@@ -47,20 +38,6 @@
                     <!-- Main Content -->
                     <div class="prose prose-lg max-w-none">
                         <div v-html="release.content"></div>
-                    </div>
-
-                    <!-- Attachment -->
-                    <div v-if="release.attachment" class="mt-8 pt-6 border-t border-gray-200">
-                        <Link
-                            :href="`/storage/${release.attachment}`"
-                            class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
-                            download
-                        >
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                            Download Attachment
-                        </Link>
                     </div>
                 </div>
             </article>
