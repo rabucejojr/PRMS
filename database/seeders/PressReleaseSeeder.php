@@ -6,12 +6,17 @@ use Illuminate\Database\Seeder;
 use App\Models\PressRelease;
 use Illuminate\Support\Str;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class PressReleaseSeeder extends Seeder
 {
     public function run(): void
     {
-        PressRelease::truncate(); // Clear existing data
+        // Disable foreign key checks
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        \App\Models\PressReleaseHistory::truncate();
+        \App\Models\PressRelease::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $user = User::first(); // Use the first user
         if (!$user) {

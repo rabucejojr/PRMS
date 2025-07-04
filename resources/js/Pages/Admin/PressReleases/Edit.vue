@@ -75,6 +75,27 @@
                 </div>
             </div>
         </div>
+
+        <div v-if="history.length" class="mt-10">
+            <h4 class="text-md font-semibold mb-4">Edit History</h4>
+            <div class="space-y-4">
+                <div v-for="entry in history" :key="entry.id" class="p-4 border rounded bg-gray-50">
+                    <div class="text-sm text-gray-700 mb-1">
+                        <span class="font-medium">{{ entry.user?.name || 'Unknown user' }}</span>
+                        edited on
+                        <span>{{ new Date(entry.created_at).toLocaleString() }}</span>
+                    </div>
+                    <ul class="ml-4 list-disc text-sm text-gray-800">
+                        <li v-for="(change, field) in JSON.parse(entry.changes)" :key="field">
+                            <span class="font-semibold">{{ field }}:</span>
+                            <span class="text-red-600 line-through">{{ change.old }}</span>
+                            <span class="mx-1">→</span>
+                            <span class="text-green-700">{{ change.new }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </AuthenticatedLayout>
 </template>
 
@@ -92,6 +113,10 @@ const props = defineProps({
             content: '',
             status: 'draft'
         })
+    },
+    history: {
+        type: Array,
+        default: () => []
     }
 })
 

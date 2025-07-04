@@ -38,6 +38,12 @@
                                 </svg>
                                 {{ formatDate(release.published_at) }}
                             </span>
+                            <span v-if="release.user?.name" class="text-sm text-gray-500 flex items-center">
+                                <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                {{ release.user.name }}
+                            </span>
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
                                 Published
                             </span>

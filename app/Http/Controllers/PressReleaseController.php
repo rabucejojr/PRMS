@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+use App\Models\PressReleaseHistory;
 
 class PressReleaseController extends Controller
 {
@@ -71,8 +72,13 @@ class PressReleaseController extends Controller
     public function edit(PressRelease $pressRelease)
     {
         $pressRelease->load('user');
+        $history = PressReleaseHistory::with('user')
+            ->where('press_release_id', $pressRelease->id)
+            ->orderByDesc('created_at')
+            ->get();
         return Inertia::render('Admin/PressReleases/Edit', [
-            'pressRelease' => $pressRelease
+            'pressRelease' => $pressRelease,
+            'history' => $history,
         ]);
     }
 
@@ -87,6 +93,9 @@ class PressReleaseController extends Controller
             'status' => 'required|in:draft,published,archived',
         ]);
 
+        // Capture old values for history
+        $old = $pressRelease->only(['title', 'content', 'status']);
+
         // Update published_at if status changes to published
         if ($validated['status'] === 'published' && $pressRelease->status !== 'published') {
             $validated['published_at'] = now();
@@ -94,6 +103,25 @@ class PressReleaseController extends Controller
 
         // Update the press release
         $pressRelease->update($validated);
+
+        // Capture new values and log changes
+        $new = $pressRelease->only(['title', 'content', 'status']);
+        $changes = [];
+        foreach ($new as $key => $value) {
+            if ($old[$key] !== $value) {
+                $changes[$key] = [
+                    'old' => $old[$key],
+                    'new' => $value,
+                ];
+            }
+        }
+        if (!empty($changes)) {
+            PressReleaseHistory::create([
+                'press_release_id' => $pressRelease->id,
+                'user_id' => Auth::id(),
+                'changes' => json_encode($changes),
+            ]);
+        }
 
         return redirect()->route('press-releases.index')
             ->with('success', 'Press release updated successfully.');
@@ -109,7 +137,8 @@ class PressReleaseController extends Controller
 
     public function publicIndex()
     {
-        $releases = PressRelease::where('status', 'published')
+        $releases = PressRelease::with('user')
+            ->where('status', 'published')
             ->orderByDesc('published_at')
             ->paginate(5)
             ->withQueryString();
@@ -119,7 +148,10 @@ class PressReleaseController extends Controller
 
     public function publicShow($slug)
     {
-        $release = PressRelease::where('slug', $slug)->where('status', 'published')->firstOrFail();
+        $release = PressRelease::with('user')
+            ->where('slug', $slug)
+            ->where('status', 'published')
+            ->firstOrFail();
         return Inertia::render('Public/Show', ['release' => $release]);
     }
 }
