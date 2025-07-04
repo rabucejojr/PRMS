@@ -6,6 +6,7 @@ use App\Models\PressRelease;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 class PressReleaseController extends Controller
 {
@@ -14,7 +15,7 @@ class PressReleaseController extends Controller
      */
     public function index()
     {
-        $pressReleases = PressRelease::orderByDesc('created_at')
+        $pressReleases = PressRelease::with('user')->orderByDesc('created_at')
             ->paginate(5)
             ->withQueryString();
 
@@ -57,6 +58,7 @@ class PressReleaseController extends Controller
             'status' => $validated['status'],
             'slug' => Str::slug($validated['title']),
             'published_at' => $validated['status'] === 'published' ? now() : null,
+            'user_id' => Auth::id(),
         ]);
 
         return redirect()->route('press-releases.index')
@@ -68,6 +70,7 @@ class PressReleaseController extends Controller
      */
     public function edit(PressRelease $pressRelease)
     {
+        $pressRelease->load('user');
         return Inertia::render('Admin/PressReleases/Edit', [
             'pressRelease' => $pressRelease
         ]);

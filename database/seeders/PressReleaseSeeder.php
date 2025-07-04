@@ -5,12 +5,18 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\PressRelease;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 class PressReleaseSeeder extends Seeder
 {
     public function run(): void
     {
         PressRelease::truncate(); // Clear existing data
+
+        $user = User::first(); // Use the first user
+        if (!$user) {
+            throw new \Exception('No users found. Please seed users first.');
+        }
 
         $statuses = ['draft', 'published', 'archived'];
 
@@ -70,6 +76,7 @@ class PressReleaseSeeder extends Seeder
                 'content' => $contents[$i],
                 'status' => $status,
                 'published_at' => $publishedAt,
+                'user_id' => $user->id,
             ]);
         }
     }

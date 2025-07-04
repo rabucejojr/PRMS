@@ -18,6 +18,12 @@
                                     {{ form.errors.title }}
                                 </div>
                             </div>
+                            <div class="mb-4">
+                                <label class="block mb-1 text-sm font-medium text-gray-700">Author</label>
+                                <div class="w-full p-2 border rounded bg-gray-100 text-gray-700">
+                                    {{ props.pressRelease.user?.name || '—' }}
+                                </div>
+                            </div>
 
                             <div class="mb-4">
                                 <label class="block mb-1 text-sm font-medium text-gray-700">Content</label>

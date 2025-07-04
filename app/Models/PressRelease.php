@@ -13,6 +13,7 @@ class PressRelease extends Model
         'content',
         'status',
         'published_at',
+        'user_id',
     ];
 
     protected $casts = [
@@ -100,5 +101,10 @@ class PressRelease extends Model
         $this->update([
             'status' => 'archived'
         ]);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

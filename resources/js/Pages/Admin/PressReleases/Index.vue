@@ -23,6 +23,7 @@
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Published</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Author</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                     </tr>
                                 </thead>
@@ -47,6 +48,9 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {{ release.published_at ? formatDate(release.published_at) : 'Not published' }}
                                         </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {{ release.user?.name || '—' }}
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                                             <Link
                                                 :href="route('press-releases.edit', release.id)"
@@ -63,7 +67,7 @@
                                         </td>
                                     </tr>
                                     <tr v-if="!pressReleases.data?.length">
-                                        <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">
+                                        <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
                                             No press releases found
                                         </td>
                                     </tr>
