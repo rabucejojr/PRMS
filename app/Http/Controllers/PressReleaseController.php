@@ -16,9 +16,20 @@ class PressReleaseController extends Controller
      */
     public function index()
     {
-        $pressReleases = PressRelease::with('user')->orderByDesc('created_at')
+        $pressReleases = PressRelease::with('user')
+            ->orderByDesc('created_at')
             ->paginate(5)
             ->withQueryString();
+
+        // Attach last_edited_by to each press release
+        $pressReleases->getCollection()->transform(function ($release) {
+            $lastHistory = \App\Models\PressReleaseHistory::with('user')
+                ->where('press_release_id', $release->id)
+                ->orderByDesc('created_at')
+                ->first();
+            $release->last_edited_by = $lastHistory ? $lastHistory->user : null;
+            return $release;
+        });
 
         return Inertia::render('Admin/PressReleases/Index', [
             'pressReleases' => $pressReleases
