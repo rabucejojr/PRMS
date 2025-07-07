@@ -1,48 +1,48 @@
 <template>
 <Head title="Edit PR" />
     <AuthenticatedLayout>
-        <div class="py-12">
-            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+        <div class="py-6 sm:py-12">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6">
+                    <div class="p-4 sm:p-6">
                         <form @submit.prevent="submit">
-                            <div class="mb-4">
-                                <label class="block mb-1 text-sm font-medium text-gray-700">Title</label>
+                            <div class="mb-4 sm:mb-6">
+                                <label class="block mb-1 sm:mb-2 text-sm font-medium text-gray-700">Title</label>
                                 <input
                                     v-model="form.title"
                                     type="text"
-                                    class="w-full p-2 border rounded focus:ring-blue-500 focus:border-blue-500"
+                                    class="w-full p-2 sm:p-3 border rounded focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
                                     :class="{ 'border-red-500': form.errors.title }"
                                 />
                                 <div v-if="form.errors.title" class="mt-1 text-sm text-red-600">
                                     {{ form.errors.title }}
                                 </div>
                             </div>
-                            <div class="mb-4">
-                                <label class="block mb-1 text-sm font-medium text-gray-700">Author</label>
-                                <div class="w-full p-2 border rounded bg-gray-100 text-gray-700">
+                            <div class="mb-4 sm:mb-6">
+                                <label class="block mb-1 sm:mb-2 text-sm font-medium text-gray-700">Author</label>
+                                <div class="w-full p-2 sm:p-3 border rounded bg-gray-100 text-gray-700 text-sm sm:text-base">
                                     {{ props.pressRelease.user?.name || '—' }}
                                 </div>
                             </div>
 
-                            <div class="mb-4">
-                                <label class="block mb-1 text-sm font-medium text-gray-700">Content</label>
+                            <div class="mb-4 sm:mb-6">
+                                <label class="block mb-1 sm:mb-2 text-sm font-medium text-gray-700">Content</label>
                                 <textarea
                                     v-model="form.content"
-                                    class="w-full p-2 border rounded focus:ring-blue-500 focus:border-blue-500"
+                                    class="w-full p-2 sm:p-3 border rounded focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
                                     :class="{ 'border-red-500': form.errors.content }"
-                                    rows="10"
+                                    rows="8"
                                 ></textarea>
                                 <div v-if="form.errors.content" class="mt-1 text-sm text-red-600">
                                     {{ form.errors.content }}
                                 </div>
                             </div>
 
-                            <div class="mb-4">
-                                <label class="block mb-1 text-sm font-medium text-gray-700">Status</label>
+                            <div class="mb-6 sm:mb-8">
+                                <label class="block mb-1 sm:mb-2 text-sm font-medium text-gray-700">Status</label>
                                 <select
                                     v-model="form.status"
-                                    class="w-full p-2 border rounded focus:ring-blue-500 focus:border-blue-500"
+                                    class="w-full p-2 sm:p-3 border rounded focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
                                     :class="{ 'border-red-500': form.errors.status }"
                                 >
                                     <option value="draft">Draft</option>
@@ -54,16 +54,16 @@
                                 </div>
                             </div>
 
-                            <div class="flex justify-end space-x-4">
+                            <div class="flex flex-col sm:flex-row sm:justify-end space-y-3 sm:space-y-0 sm:space-x-4">
                                 <Link
                                     :href="route('press-releases.index')"
-                                    class="px-6 py-3 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors"
+                                    class="px-4 sm:px-6 py-2 sm:py-3 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors text-center"
                                 >
                                     Cancel
                                 </Link>
                                 <button
                                     type="submit"
-                                    class="px-6 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 ease-in-out transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    class="px-4 sm:px-6 py-2 sm:py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 ease-in-out transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                                     :disabled="form.processing"
                                 >
                                     <span v-if="form.processing">Updating...</span>
@@ -76,23 +76,25 @@
             </div>
         </div>
 
-        <div v-if="history.length" class="mt-10">
-            <h4 class="text-md font-semibold mb-4">Edit History</h4>
-            <div class="space-y-4">
-                <div v-for="entry in history" :key="entry.id" class="p-4 border rounded bg-gray-50">
-                    <div class="text-sm text-gray-700 mb-1">
-                        <span class="font-medium">{{ entry.user?.name || 'Unknown user' }}</span>
-                        edited on
-                        <span>{{ new Date(entry.created_at).toLocaleString() }}</span>
+        <div v-if="history.length" class="mt-8 sm:mt-10 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto">
+                <h4 class="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">Edit History</h4>
+                <div class="space-y-3 sm:space-y-4">
+                    <div v-for="entry in history" :key="entry.id" class="p-3 sm:p-4 border rounded bg-gray-50">
+                        <div class="text-sm text-gray-700 mb-2 sm:mb-3">
+                            <span class="font-medium">{{ entry.user?.name || 'Unknown user' }}</span>
+                            edited on
+                            <span>{{ new Date(entry.created_at).toLocaleString() }}</span>
+                        </div>
+                        <ul class="ml-4 list-disc text-sm text-gray-800 space-y-1">
+                            <li v-for="(change, field) in JSON.parse(entry.changes)" :key="field" class="break-words">
+                                <span class="font-semibold">{{ field }}:</span>
+                                <span class="text-red-600 line-through">{{ change.old }}</span>
+                                <span class="mx-1">→</span>
+                                <span class="text-green-700">{{ change.new }}</span>
+                            </li>
+                        </ul>
                     </div>
-                    <ul class="ml-4 list-disc text-sm text-gray-800">
-                        <li v-for="(change, field) in JSON.parse(entry.changes)" :key="field">
-                            <span class="font-semibold">{{ field }}:</span>
-                            <span class="text-red-600 line-through">{{ change.old }}</span>
-                            <span class="mx-1">→</span>
-                            <span class="text-green-700">{{ change.new }}</span>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </div>

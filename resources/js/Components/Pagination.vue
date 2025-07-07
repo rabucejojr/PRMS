@@ -1,14 +1,14 @@
 <template>
     <div v-if="links.length > 3" class="flex justify-center">
-        <div class="flex flex-wrap -mb-1">
+        <div class="flex flex-wrap justify-center -mb-1">
             <template v-for="(link, key) in links" :key="key">
                 <div v-if="link.url === null"
-                    class="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-gray-400 border rounded"
+                    class="mr-1 mb-1 px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm leading-4 text-gray-400 border rounded"
                 >
                     {{ getPaginationLabel(link.label) }}
                 </div>
                 <Link v-else
-                    class="mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded hover:bg-indigo-50 focus:border-indigo-500 focus:text-indigo-500"
+                    class="mr-1 mb-1 px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm leading-4 border rounded hover:bg-indigo-50 focus:border-indigo-500 focus:text-indigo-500 transition-colors"
                     :class="{ 'bg-indigo-50': link.active }"
                     :href="link.url"
                 >
