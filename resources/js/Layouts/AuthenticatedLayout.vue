@@ -23,7 +23,7 @@ const showingNavigationDropdown = ref(false);
                             <!-- Logo -->
                             <div class="flex shrink-0 items-center">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationLogo class="h-14 auto text-indigo-600" />
+                                    <ApplicationLogo class="h-10 w-auto text-indigo-600 sm:h-14" />
                                 </Link>
                             </div>
 
@@ -34,9 +34,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink
                                     :href="route('dashboard')"
                                     :active="route().current('dashboard')"
-                                    class="text-2xl font-bold tracking-wide"
+                                    class="text-lg sm:text-2xl font-bold tracking-wide"
                                 >
-                                    <h3 class="text-xl font-bold tracking-wide">SDN-PRMS</h3>
+                                    <h3 class="text-lg sm:text-xl font-bold tracking-wide">SDN-PRMS</h3>
                                 </NavLink>
                             </div>
                         </div>
@@ -49,12 +49,13 @@ const showingNavigationDropdown = ref(false);
                                         <span class="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-base font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
+                                                class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm sm:text-base font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
                                             >
-                                                {{ $page.props.auth.user.name }}
+                                                <span class="hidden sm:inline">{{ $page.props.auth.user.name }}</span>
+                                                <span class="sm:hidden">{{ $page.props.auth.user.name.split(' ')[0] }}</span>
 
                                                 <svg
-                                                    class="-me-0.5 ms-2 h-5 w-5"
+                                                    class="-me-0.5 ms-2 h-4 w-4 sm:h-5 sm:w-5"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 20 20"
                                                     fill="currentColor"
@@ -142,7 +143,7 @@ const showingNavigationDropdown = ref(false);
                         <ResponsiveNavLink
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
-                            class="text-lg"
+                            class="text-base sm:text-lg"
                         >
                             Dashboard
                         </ResponsiveNavLink>
@@ -154,24 +155,24 @@ const showingNavigationDropdown = ref(false);
                     >
                         <div class="px-4">
                             <div
-                                class="text-lg font-medium text-gray-800"
+                                class="text-base sm:text-lg font-medium text-gray-800"
                             >
                                 {{ $page.props.auth.user.name }}
                             </div>
-                            <div class="text-base font-medium text-gray-500">
+                            <div class="text-sm sm:text-base font-medium text-gray-500">
                                 {{ $page.props.auth.user.email }}
                             </div>
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.edit')" class="text-lg">
+                            <ResponsiveNavLink :href="route('profile.edit')" class="text-base sm:text-lg">
                                 Profile
                             </ResponsiveNavLink>
                             <ResponsiveNavLink
                                 :href="route('logout')"
                                 method="post"
                                 as="button"
-                                class="text-lg"
+                                class="text-base sm:text-lg"
                             >
                                 Log Out
                             </ResponsiveNavLink>
@@ -185,7 +186,7 @@ const showingNavigationDropdown = ref(false);
                 class="bg-white shadow"
                 v-if="$slots.header"
             >
-                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                <div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
                     <slot name="header" />
                 </div>
             </header>
