@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Carbon\Carbon;
 
 class PressRelease extends Model
 {
@@ -29,12 +28,12 @@ class PressRelease extends Model
     protected static function booted()
     {
         static::creating(function ($pressRelease) {
-            $pressRelease->slug = Str::slug($pressRelease->title) . '-' . Str::random(5);
+            $pressRelease->slug = Str::slug($pressRelease->title).'-'.Str::random(5);
         });
 
         static::updating(function ($pressRelease) {
             if ($pressRelease->isDirty('title')) {
-                $pressRelease->slug = Str::slug($pressRelease->title) . '-' . Str::random(5);
+                $pressRelease->slug = Str::slug($pressRelease->title).'-'.Str::random(5);
             }
         });
     }
@@ -84,7 +83,7 @@ class PressRelease extends Model
     {
         $this->update([
             'status' => 'published',
-            'published_at' => now()
+            'published_at' => now(),
         ]);
     }
 
@@ -92,14 +91,14 @@ class PressRelease extends Model
     {
         $this->update([
             'status' => 'draft',
-            'published_at' => null
+            'published_at' => null,
         ]);
     }
 
     public function archive()
     {
         $this->update([
-            'status' => 'archived'
+            'status' => 'archived',
         ]);
     }
 

@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\PressRelease;
-use Illuminate\Support\Str;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class PressReleaseSeeder extends Seeder
 {
@@ -19,7 +19,7 @@ class PressReleaseSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $user = User::first(); // Use the first user
-        if (!$user) {
+        if (! $user) {
             throw new \Exception('No users found. Please seed users first.');
         }
 
@@ -45,7 +45,7 @@ class PressReleaseSeeder extends Seeder
             'Software Company Releases Major Update',
             'Construction Firm Wins Government Contract',
             'Media Company Launches New Streaming Service',
-            'Pharmaceutical Company Announces Breakthrough'
+            'Pharmaceutical Company Announces Breakthrough',
         ];
 
         $contents = [
@@ -68,7 +68,7 @@ class PressReleaseSeeder extends Seeder
             '<p>A major software update has been released, introducing new features and improvements to enhance user experience and performance. The update includes security enhancements and new functionality.</p>',
             '<p>The construction firm has been awarded a significant government contract for infrastructure development. The project will create jobs and improve local infrastructure.</p>',
             '<p>A new streaming service has been launched, offering exclusive content and original programming. The service features advanced streaming technology and personalized recommendations.</p>',
-            '<p>A breakthrough in pharmaceutical research has been announced, potentially leading to new treatments for serious medical conditions. The development represents years of research and testing.</p>'
+            '<p>A breakthrough in pharmaceutical research has been announced, potentially leading to new treatments for serious medical conditions. The development represents years of research and testing.</p>',
         ];
 
         foreach (range(0, 19) as $i) {
@@ -77,7 +77,7 @@ class PressReleaseSeeder extends Seeder
 
             PressRelease::create([
                 'title' => $titles[$i],
-                'slug' => Str::slug($titles[$i]) . '-' . Str::random(5),
+                'slug' => Str::slug($titles[$i]).'-'.Str::random(5),
                 'content' => $contents[$i],
                 'status' => $status,
                 'published_at' => $publishedAt,

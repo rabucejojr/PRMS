@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\PressRelease;
+use App\Models\PressReleaseHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Auth;
-use App\Models\PressReleaseHistory;
 
 class PressReleaseController extends Controller
 {
@@ -28,11 +28,12 @@ class PressReleaseController extends Controller
                 ->orderByDesc('created_at')
                 ->first();
             $release->last_edited_by = $lastHistory ? $lastHistory->user : null;
+
             return $release;
         });
 
         return Inertia::render('Admin/PressReleases/Index', [
-            'pressReleases' => $pressReleases
+            'pressReleases' => $pressReleases,
         ]);
     }
 
@@ -41,7 +42,7 @@ class PressReleaseController extends Controller
         $release = PressRelease::where('slug', $slug)->firstOrFail();
 
         return Inertia::render('Public/Show', [
-            'release' => $release
+            'release' => $release,
         ]);
     }
 
@@ -87,6 +88,7 @@ class PressReleaseController extends Controller
             ->where('press_release_id', $pressRelease->id)
             ->orderByDesc('created_at')
             ->get();
+
         return Inertia::render('Admin/PressReleases/Edit', [
             'pressRelease' => $pressRelease,
             'history' => $history,
@@ -126,7 +128,7 @@ class PressReleaseController extends Controller
                 ];
             }
         }
-        if (!empty($changes)) {
+        if (! empty($changes)) {
             PressReleaseHistory::create([
                 'press_release_id' => $pressRelease->id,
                 'user_id' => Auth::id(),
@@ -163,6 +165,7 @@ class PressReleaseController extends Controller
             ->where('slug', $slug)
             ->where('status', 'published')
             ->firstOrFail();
+
         return Inertia::render('Public/Show', ['release' => $release]);
     }
 }

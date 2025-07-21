@@ -37,12 +37,12 @@ class PasswordResetLinkController extends Controller
             ]);
 
             // Rate limiting - prevent spam
-            $key = 'password-reset-' . $request->ip();
+            $key = 'password-reset-'.$request->ip();
 
             if (RateLimiter::tooManyAttempts($key, 3)) {
                 $seconds = RateLimiter::availableIn($key);
                 throw ValidationException::withMessages([
-                    'email' => ['Too many password reset attempts. Please try again in ' . ceil($seconds / 60) . ' minutes.'],
+                    'email' => ['Too many password reset attempts. Please try again in '.ceil($seconds / 60).' minutes.'],
                 ]);
             }
 
@@ -58,8 +58,9 @@ class PasswordResetLinkController extends Controller
             if ($status == Password::RESET_LINK_SENT) {
                 Log::info('Password reset link sent successfully', [
                     'email' => $request->email,
-                    'ip' => $request->ip()
+                    'ip' => $request->ip(),
                 ]);
+
                 return back()->with('status', 'We have emailed your password reset link! Please check your email.');
             }
 
@@ -73,7 +74,7 @@ class PasswordResetLinkController extends Controller
             Log::warning('Password reset link failed to send', [
                 'email' => $request->email,
                 'status' => $status,
-                'ip' => $request->ip()
+                'ip' => $request->ip(),
             ]);
 
             throw ValidationException::withMessages([
@@ -82,10 +83,10 @@ class PasswordResetLinkController extends Controller
         } catch (ValidationException $e) {
             throw $e;
         } catch (\Exception $e) {
-            Log::error('Password reset error: ' . $e->getMessage(), [
+            Log::error('Password reset error: '.$e->getMessage(), [
                 'email' => $request->email,
                 'exception' => $e,
-                'ip' => $request->ip()
+                'ip' => $request->ip(),
             ]);
 
             throw ValidationException::withMessages([

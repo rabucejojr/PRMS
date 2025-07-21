@@ -15,8 +15,11 @@ class ResetPasswordMail extends Mailable implements ShouldQueue
     use Queueable, SerializesModels;
 
     public $resetUrl;
+
     public $user;
+
     public $tries = 3;
+
     public $timeout = 30;
 
     /**
@@ -39,12 +42,12 @@ class ResetPasswordMail extends Mailable implements ShouldQueue
     {
         try {
             return new Envelope(
-                subject: 'Reset Your Password - ' . config('app.name'),
+                subject: 'Reset Your Password - '.config('app.name'),
                 from: config('mail.from.address', 'noreply@dost.gov.ph'),
                 replyTo: config('mail.from.address', 'noreply@dost.gov.ph'),
             );
         } catch (\Exception $e) {
-            Log::error('Failed to create mail envelope: ' . $e->getMessage());
+            Log::error('Failed to create mail envelope: '.$e->getMessage());
             throw $e;
         }
     }
@@ -63,7 +66,7 @@ class ResetPasswordMail extends Mailable implements ShouldQueue
                 ],
             );
         } catch (\Exception $e) {
-            Log::error('Failed to create mail content: ' . $e->getMessage());
+            Log::error('Failed to create mail content: '.$e->getMessage());
             throw $e;
         }
     }
@@ -87,7 +90,7 @@ class ResetPasswordMail extends Mailable implements ShouldQueue
             'exception' => $exception->getMessage(),
             'trace' => $exception->getTraceAsString(),
             'user' => $this->user ? $this->user->id : null,
-            'resetUrl' => $this->resetUrl
+            'resetUrl' => $this->resetUrl,
         ]);
     }
 }

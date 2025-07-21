@@ -1,12 +1,12 @@
 <?php
 
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\PressReleaseController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\PressReleaseController;
-use App\Http\Controllers\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Auth\NewPasswordController;
 
 // Public routes
 Route::get('/', function () {
@@ -44,7 +44,7 @@ Route::middleware('guest')->group(function () {
 // Authenticated routes
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard', [
-        'pressReleases' => \App\Models\PressRelease::orderByDesc('created_at')->get()
+        'pressReleases' => \App\Models\PressRelease::orderByDesc('created_at')->get(),
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -55,4 +55,4 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::resource('press-releases', PressReleaseController::class);
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
