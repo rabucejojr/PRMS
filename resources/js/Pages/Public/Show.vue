@@ -2,7 +2,7 @@
     <Head title="View Press Release" />
     <div class="min-h-screen bg-gray-50">
         <div class="max-w-4xl mx-auto py-6 sm:py-12 px-4 sm:px-6 lg:px-8">
-            <!-- Back Button -->
+            <!-- Back Button 
             <div class="mb-6 sm:mb-8">
                 <Link href="/press-releases" class="inline-flex items-center text-gray-600 hover:text-gray-900 text-sm sm:text-base">
                     <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -10,7 +10,7 @@
                     </svg>
                     Back to Press Releases
                 </Link>
-            </div>
+            </div> 
 
             <!-- Press Release Content -->
             <article class="bg-white rounded-lg shadow-sm overflow-hidden">
