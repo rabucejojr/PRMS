@@ -26,6 +26,7 @@
                                     class="w-full p-2 sm:p-3 border rounded focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
                                     :class="{ 'border-red-500': form.errors.content }"
                                     rows="8"
+                                    placeholder="Insert <br/> to create new paragraphs"
                                 ></textarea>
                                 <div v-if="form.errors.content" class="mt-1 text-sm text-red-600">
                                     {{ form.errors.content }}
