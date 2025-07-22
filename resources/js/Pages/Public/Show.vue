@@ -43,7 +43,7 @@
 
                     <!-- Main Content -->
                     <div class="prose prose-sm sm:prose-base lg:prose-lg max-w-none">
-                        <div v-html="release.content"></div>
+                        <div v-html="release.content" class="text-justify"></div>
                     </div>
                 </div>
             </article>
@@ -130,8 +130,15 @@ function formatDate(date) {
 
 .prose p {
     color: #4b5563;
-    line-height: 1.625;
-    margin-bottom: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1.5em;
+    margin-top: 0;
+    text-indent: 0;
+}
+
+.prose p + p {
+    margin-top: 1.5em;
+    text-indent: 2em;
 }
 
 .prose ul {
